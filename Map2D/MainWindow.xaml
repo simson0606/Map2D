@@ -4,9 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Map2D"
+        xmlns:valueConverters="clr-namespace:Map2D.ValueConverters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Map2D" Height="600" Width="800" Name="MainWindowName"
+        DataContext="{Binding Main, Source={StaticResource Locator}}" Icon="icon.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0" Width="47" Margin="0,0,103,0" Content="Save" Command="{Binding SaveCommand}"/>
+        <Button Grid.Row="0" Grid.Column="0" Width="47" Content="Load" Command="{Binding LoadCommand}"/>
+        <Button Grid.Row="0" Grid.Column="0" Width="47" Margin="103,0,0,0" Content="Create" Command="{Binding CreateCommand}" CommandParameter="{Binding ElementName=MainWindowName}"/>
+
+        <Button Grid.Row="0" Grid.Column="1" Width="90" Margin="10,0,0,0" Content="Map Edit mode" HorizontalAlignment="Left" Command="{Binding MapCommand}"/>
+        <Button Grid.Row="0" Grid.Column="1" Width="110" Margin="110,0,0,0" Content="Objects Edit mode" HorizontalAlignment="Left" Command="{Binding ObjectsCommand}"/>
+
+
+        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding TileTypes}" SelectedItem="{Binding SelectedTileType}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Image Source="{Binding Path=Image}" Height="32"/>
+                        </Grid>
+                        <TextBlock Text="{Binding Path=Name}" Margin="10,8,0,0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListView Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Map.Tiles}" SelectedItem="{Binding SelectedTile}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ItemContainerStyle="{StaticResource FileItemStyle}" Width="{Binding Map, Converter={valueConverters:MapViewModelToWidthConverter}}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Image Source="{Binding Path=TileViewModel.Image}" Height="32"/>
+                        <Image Source="{Binding Path=ObjectViewModel.Image}" Height="32" Opacity="0.9"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>

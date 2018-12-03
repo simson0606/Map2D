@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Map2D.Model;
 
 namespace Map2D
 {
@@ -13,5 +10,36 @@ namespace Map2D
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            try
+            {
+                var args = Environment.GetCommandLineArgs();
+                string extension = "m2d";
+                string applicationName = "Map2D";
+                string icon = "icon.ico";
+                string description = "Map2D map file";
+                if (args.Any(x => x.Equals("/register", StringComparison.OrdinalIgnoreCase)))
+                {
+                    ApplicationRegistration registration = new ApplicationRegistration();
+                    registration.RegisterApplication(extension, applicationName,
+                        AppDomain.CurrentDomain.BaseDirectory + applicationName + ".exe",
+                        AppDomain.CurrentDomain.BaseDirectory + icon, description);
+                    return;
+                }
+                if (args.Any(x => x.Equals("/unregister", StringComparison.OrdinalIgnoreCase)))
+                {
+                    ApplicationRegistration registration = new ApplicationRegistration();
+                    registration.UnregisterApplication(extension, applicationName);
+                    return;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                Console.ReadLine();
+            }
+        }
     }
 }

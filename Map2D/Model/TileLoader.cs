@@ -27,7 +27,7 @@ namespace Map2D.Model
             var extension = Path.GetExtension(filename);
 
             File.WriteAllLines(filename, tileLines);
-            File.WriteAllLines($"{path}\\{file}-objects{extension}o", objectLines);
+            File.WriteAllLines($"{path}\\{file}{extension}o", objectLines);
         }
 
         public MapViewModel Load(string filename, ObservableCollection<TileViewModel> tileTypes, ObservableCollection<TileViewModel> tileObjectTypes)
@@ -35,7 +35,7 @@ namespace Map2D.Model
             var path = Path.GetDirectoryName(filename);
             var file = Path.GetFileNameWithoutExtension(filename);
             var extension = Path.GetExtension(filename);
-            var objectPath = $"{path}\\{file}-objects{extension}o";
+            var objectPath = $"{path}\\{file}{extension}o";
 
             var tileLines = File.ReadAllLines(filename);
             var objectLines = Enumerable.Range(0, tileLines.Length * tileLines[0].Length).Select(s => tileObjectTypes[0].ToModel().Character).ToArray();

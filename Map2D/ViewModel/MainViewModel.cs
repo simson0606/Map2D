@@ -77,15 +77,15 @@ namespace Map2D.ViewModel
 
         private void EditObjects()
         {
-            RaisePropertyChanged(() => TileTypes);
             _tileMode = false;
+            RaisePropertyChanged(() => TileTypes);
         }
 
         private void EditMap()
         {
+            _tileMode = true;
             var tileTypeLoader = new TileTypeLoader();
             RaisePropertyChanged(() => TileTypes);
-            _tileMode = true;
         }
 
         public void InitializeMap(int rows, int columns)

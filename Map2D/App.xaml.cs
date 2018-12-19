@@ -25,13 +25,13 @@ namespace Map2D
                     registration.RegisterApplication(extension, applicationName,
                         AppDomain.CurrentDomain.BaseDirectory + applicationName + ".exe",
                         AppDomain.CurrentDomain.BaseDirectory + icon, description);
-                    return;
+                    Environment.Exit(0);
                 }
                 if (args.Any(x => x.Equals("/unregister", StringComparison.OrdinalIgnoreCase)))
                 {
                     ApplicationRegistration registration = new ApplicationRegistration();
                     registration.UnregisterApplication(extension, applicationName);
-                    return;
+                    Environment.Exit(0);
                 }
 
             }
